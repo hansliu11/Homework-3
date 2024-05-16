@@ -74,6 +74,7 @@ class MyPortfolio:
         """
         TODO: Complete Task 4 Below
         """
+        self.portfolio_weights['XLK'] = 1.0
 
         """
         TODO: Complete Task 4 Above
@@ -123,6 +124,20 @@ class AssignmentJudge:
         (1 + returns["SPY"]).cumprod().plot(ax=ax, label="SPY")
         (1 + strategy[1]["Portfolio"]).cumprod().plot(ax=ax, label=f"MyPortfolio")
 
+        ax.set_title("Cumulative Returns")
+        ax.set_xlabel("Date")
+        ax.set_ylabel("Cumulative Returns")
+        ax.legend()
+        plt.show()
+        return None
+    def plot_performance_all(self, price):
+        # Plot cumulative returns
+        _, ax = plt.subplots()
+        returns = price.pct_change().fillna(0)
+        
+        for asset in assets:
+            (1 + returns[asset]).cumprod().plot(ax=ax, label=asset)
+        
         ax.set_title("Cumulative Returns")
         ax.set_xlabel("Date")
         ax.set_ylabel("Cumulative Returns")
@@ -251,6 +266,8 @@ if __name__ == "__main__":
             judge.plot_performance(df, judge.mp)
         if "bmp" in args.performance:
             judge.plot_performance(Bdf, judge.Bmp)
+        if "all" in args.performance:
+            judge.plot_performance_all(df)
 
     if args.report:
         if "mp" in args.report:
